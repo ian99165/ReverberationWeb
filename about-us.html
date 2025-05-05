@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8" />
+    <title>我們的團隊</title>
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        h1 {
+            text-align: center;
+        }
+        .team-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 250px;
+            padding: 15px;
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .nickname {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .realname, .role, .skills {
+            margin: 5px 0;
+        }
+        .label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div id="team-container">
+</div>
+<script>
+    fetch('https://script.google.com/macros/s/AKfycbwUXpxpsE6iC4jk-xjD1Vw9JPwGVB_SMQEs_rbv76KguMubVmkSsUoQswvXUkj3R5cjDw/exec')
+        .then(response => response.json())
+        .then(result => {
+            const data = result.Items; // ← 修正這裡：抓 Items 陣列
+            if (Array.isArray(data)) {
+                const container = document.getElementById('team-container');
+                data.forEach(member => {
+                    const memberDiv = document.createElement('div');
+                    memberDiv.classList.add('card');
+                    memberDiv.innerHTML = `
+                        <div class="nickname">${member.nickname}</div>
+                        <div class="realname"><span class="label">本名：</span>${member.realname}</div>
+                        <div class="role"><span class="label">職位：</span>${member.role}</div>
+                        <div class="skills"><span class="label">技能：</span>${member.skills}</div>
+                    `;
+                    container.appendChild(memberDiv);
+                });
+            } else {
+                console.error('返回的資料不是陣列格式。實際資料為：', result);
+            }
+        })
+        .catch(error => {
+            console.error('資料讀取錯誤：', error);
+        });
+</script>
+
+
+</body>
+</html>
