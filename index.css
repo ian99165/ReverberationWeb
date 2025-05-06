@@ -1,0 +1,201 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html, body {
+    background: #222222;
+    height: 100%;
+    font-family: sans-serif;
+}
+
+body.home {
+    overflow: hidden;
+    height: 100vh;
+}
+
+/* 頁首 */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    z-index: 1000;
+    background-color: transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 50px; /* 預設padding 讓 logo 和選單有間距 */
+    transition: background-color 0.3s ease;
+}
+
+header.scrolled {
+    background-color: rgba(30, 30, 30, 0.8);
+    backdrop-filter: blur(10px);
+}
+
+header img {
+    height: 50px;
+    cursor: pointer;
+}
+header .menu-btn {
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+    display: block;
+}
+
+#menu {
+    position: absolute;
+    top: 80px;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 10px 20px;
+    z-index: 999;
+    display: none;
+    border-radius: 0 0 10px 10px; /* 圓角可選 */
+    backdrop-filter: blur(6px); /* 額外：背景模糊玻璃效果 */
+}
+
+#menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#menu ul li {
+    margin: 10px 0;
+}
+
+#menu ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+#menu.show {
+    display: block;
+}
+
+/* menu-btn 樣式 */
+.menu-btn {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    font-size: 28px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+
+/* 輪播區域 */
+.carousel-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 40px; /* footer 高度 */
+    overflow: hidden;
+    z-index: 1;
+}
+
+.carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.6s ease; /* 平滑切換 */
+}
+
+.carousel-track img {
+    width: 25vw;
+    height: 100%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+@keyframes slide {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-25vw); } /* 向左滑動一張寬度 */
+}
+
+/* 頁尾 */
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    background-color: #222;
+    color: white;
+    text-align: center;
+    line-height: 40px;
+    font-size: 14px;
+    z-index: 10;
+}
+.scroll-top-btn {
+    position: fixed;
+    right: 20px;
+    bottom: 50px;
+    z-index: 999;
+    display: none; /* 預設隱藏 */
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+.scroll-top-btn:hover {
+    opacity: 1;
+}
+
+.member-section {
+    width: 100%;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.1); /* 可依需求設定背景 */
+    border-bottom: 1px solid #ccc;
+}
+
+/* 內容卡片 */
+.member-card {
+    display: flex;
+    gap: 20px;
+    max-width: 1000px;
+    width: 90%;
+    background-color: rgba(255, 255, 255, 0.8); /* 白色卡片半透明 */
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+/* 頭像 */
+.avatar {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin: 30px;
+}
+
+/* 資訊 */
+.member-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 30px;
+    font-size: 16px;
+    color: #333;
+}
+
+.nickname {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
