@@ -30,7 +30,7 @@ fetch('https://script.google.com/macros/s/AKfycbwUXpxpsE6iC4jk-xjD1Vw9JPwGVB_SMQ
                 const card = document.createElement('div');
                 card.classList.add('member-section');
 
-                const imageName = ['A.png', 'B.png', 'C.png', 'D.png', 'E.png'][index % 5];
+                const imageName = ['A.PNG', 'B.PNG', 'C.PNG', 'D.PNG', 'E.PNG'][index % 5];
                 const socialLinks = [];
 
                 ['ig1', 'ig2'].forEach(key => {
@@ -77,7 +77,6 @@ fetch('https://script.google.com/macros/s/AKfycbwUXpxpsE6iC4jk-xjD1Vw9JPwGVB_SMQ
                 container.appendChild(card);
             });
 
-            // 等待所有圖片載入完成後再結束過場動畫
             const images = container.querySelectorAll('img');
             let loadedCount = 0;
 
