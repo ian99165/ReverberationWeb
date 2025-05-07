@@ -55,25 +55,27 @@ fetch('https://script.google.com/macros/s/AKfycbwUXpxpsE6iC4jk-xjD1Vw9JPwGVB_SMQ
                 }
 
                 card.innerHTML = `
-                    <div class="member-card">
-                        <div class="avatar-wrapper">
-                            <img class="avatar" src="img/${imageName}" alt="頭像">
-                        </div>
-                        <div class="member-info">
-                            <div class="name-row">
-                                <div class="nickname">${member.nickname}</div>
-                                <div class="realname">${member.realname}</div>
-                            </div>
-                            <div>${member.study}</div>
-                            <div>${member.role}</div>
-                            <div class="contact-info">
-                                <div class="skills">${member.skills}</div>
-                                <div class="mail">${member.mail}</div>
-                            </div>
-                            <div class="social-links">${socialLinks.join('')}</div>
-                        </div>
+                <div class="member-card">
+                    <div class="fade-chess-bg"></div>
+                    <div class="avatar-wrapper">
+                        <img class="avatar" src="img/${imageName}" alt="頭像">
                     </div>
-                `;
+                    <div class="member-info">
+                        <div class="name-row">
+                            <div class="nickname">${member.nickname}</div>
+                            <div class="realname">${member.realname}</div>
+                        </div>
+                        <div>${member.study}</div>
+                        <div>${member.role}</div>
+                        <div class="contact-info">
+                            <div class="skills">${member.skills}</div>
+                            <div class="mail">${member.mail}</div>
+                        </div>
+                        <div class="social-links">${socialLinks.join('')}</div>
+                    </div>
+                    <img src="img/G.PNG" alt="G" class="corner-g">
+                </div>
+            `;
                 container.appendChild(card);
             });
 
@@ -140,5 +142,20 @@ window.addEventListener("scroll", function () {
 });
 
 document.getElementById("backToTop")?.addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({top: 0, behavior: "smooth"});
+});
+
+    document.querySelectorAll('nav a').forEach(link => {
+    link.addEventListener('click', function (e) {
+        e.preventDefault();
+        const href = this.getAttribute('href');
+
+        const overlay = document.getElementById('transitionOverlay');
+        overlay.classList.add('active');
+
+        // 等 1 秒動畫跑完再跳轉
+        setTimeout(() => {
+            window.location.href = href;
+        }, 1000);
+    });
 });

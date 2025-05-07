@@ -20,7 +20,7 @@ header {
     top: 0;
     left: 0;
     width: 100%;
-    height: 80px;
+    height: 100px;
     z-index: 1000;
     background-color: transparent;
     display: flex;
@@ -36,11 +36,11 @@ header.scrolled {
 }
 
 header img {
-    height: 50px;
+    height: 100%;
     cursor: pointer;
 }
 header .menu-btn {
-    font-size: 24px;
+    font-size: 30px;
     color: white;
     cursor: pointer;
     display: block;
@@ -48,13 +48,19 @@ header .menu-btn {
 
 .logo-center {
     position: fixed;
-    top: 60%;
+    bottom: 10%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 9998;
-    max-width: 30vw;
+    z-index: 800;
     width: 100%;
     pointer-events: none;
+    max-width: 15vw;
+}
+
+@media (max-width: 1200px) {
+    .logo-center {
+        max-width: 200px;
+    }
 }
 
 .logo-center img {
@@ -69,7 +75,7 @@ header .menu-btn {
     right: 0;
     background-color: rgba(0, 0, 0, 0.7);
     padding: 10px 20px;
-    z-index: 999;
+    z-index: 800;
     display: none;
     border-radius: 0 0 10px 10px;
     backdrop-filter: blur(6px);
@@ -99,9 +105,9 @@ header .menu-btn {
     position: absolute;
     right: 20px;
     top: 20px;
-    font-size: 28px;
+    font-size: 100px;
     cursor: pointer;
-    z-index: 1000;
+    z-index: 80;
 }
 
 
@@ -170,7 +176,7 @@ footer {
 
 .member-section {
     width: 100%;
-    height: 500px;
+    height: 400px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -182,14 +188,46 @@ footer {
 
 /* 內容卡片 */
 .member-card {
+    position: relative;
     display: flex;
     gap: 20px;
     max-width: 1000px;
     width: 90%;
-    background-color: rgba(255, 255, 255, 0.8); /* 白色卡片半透明 */
+    background-color: rgba(255, 255, 255, 0.8);
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     overflow: hidden;
+    transition: transform 0.3s ease;
+
+}
+
+
+.member-card:hover {
+    transform: scale(1.03);
+    z-index: 2;
+}
+
+.member-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    background-image: url('img/G.PNG');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.5;
+    z-index: -1;
+}
+
+.corner-g {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 20vw;
+    pointer-events: none;
+    opacity: 0.8;
 }
 
 /* 頭像 */
@@ -284,7 +322,12 @@ footer {
 }
 
 .member-section {
-    height: 700px;
+    height: 400px;
+}
+
+@media (max-width:700px) {
+    .member-section{
+        height: 600px;}
 }
 
 .avatar-wrapper:hover::before {
@@ -380,6 +423,11 @@ footer {
     flex-wrap: wrap;
 }
 
+@media (max-width:700px) {
+    .social-links {
+    justify-content: center;}
+}
+
 .social-links a {
     text-decoration: none;
     background-color: #333;
@@ -443,4 +491,32 @@ footer {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+.gradient-footer {
+    height: 500px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgb(31, 0, 0));
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 9;
+}
+
+.transition-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: black;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 1s ease;
+}
+
+.transition-overlay.active {
+    opacity: 1;
+    clip-path: inset(0 0% 0 0); /* 收縮為 0%，全部顯示 */
 }

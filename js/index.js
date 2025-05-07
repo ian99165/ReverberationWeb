@@ -48,23 +48,18 @@ function toggleMenu() {
     const menu = document.getElementById("menu");
     menu.classList.toggle("show");
 }
-let progress = 0;
 const loadingProgress = document.querySelector('.loading-progress');
 const loadingScreen = document.getElementById('loadingScreen');
 
-const interval = setInterval(() => {
-    progress += Math.random() * 10;
-    if (progress > 100) progress = 100;
-    loadingProgress.style.width = progress + '%';
+window.addEventListener("load", () => {
+    const loadingScreen = document.getElementById("loadingScreen");
 
-    if (progress >= 100) {
-        clearInterval(interval);
-        loadingScreen.style.opacity = '0';
-        setTimeout(() => {
-            loadingScreen.style.display = 'none';
-        }, 500);
-    }
-}, 200);
+    loadingScreen.style.opacity = '0';
+    setTimeout(() => {
+        loadingScreen.style.display = 'none';
+    }, 500);
+});
+
 
 // index.js
 document.addEventListener("DOMContentLoaded", () => {
@@ -95,3 +90,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const backToTop = document.getElementById("backToTop");
     backToTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 });
+
+document.querySelectorAll('nav a').forEach(link => {
+    link.addEventListener('click', function (e) {
+        e.preventDefault();
+        const href = this.getAttribute('href');
+
+        const overlay = document.getElementById('transitionOverlay');
+        overlay.classList.add('active');
+
+        // 等 1 秒動畫跑完再跳轉
+        setTimeout(() => {
+            window.location.href = href;
+        }, 1000);
+    });
+});
+
