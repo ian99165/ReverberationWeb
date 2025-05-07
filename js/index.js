@@ -26,6 +26,24 @@ function moveToNextSlide() {
 
 setInterval(moveToNextSlide, 2500);
 
+document.addEventListener("DOMContentLoaded", () => {
+    const loadingScreen = document.getElementById("loadingScreen");
+    const alreadyLoaded = localStorage.getItem("hasVisited");
+
+    if (alreadyLoaded) {
+        loadingScreen.style.display = "none";
+    } else {
+        localStorage.setItem("hasVisited", "true");
+        setTimeout(() => {
+            loadingScreen.style.opacity = 0;
+            setTimeout(() => loadingScreen.style.display = "none", 500);
+        }, 2000); // 顯示 2 秒後隱藏
+    }
+
+    const backToTop = document.getElementById("backToTop");
+    backToTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+});
+
 function toggleMenu() {
     const menu = document.getElementById("menu");
     menu.classList.toggle("show");
@@ -48,3 +66,32 @@ const interval = setInterval(() => {
     }
 }, 200);
 
+// index.js
+document.addEventListener("DOMContentLoaded", () => {
+    const loadingScreen = document.getElementById("loadingScreen");
+    const alreadyLoaded = localStorage.getItem("hasVisited");
+
+    if (alreadyLoaded) {
+        loadingScreen.style.display = "none";
+    } else {
+        localStorage.setItem("hasVisited", "true");
+        setTimeout(() => {
+            loadingScreen.style.opacity = 0;
+            setTimeout(() => loadingScreen.style.display = "none", 500);
+        }, 2000);
+    }
+
+    // 🟡👉 預載 about-us.html，並在成功後做記號
+    fetch("about-us.html")
+        .then(response => {
+            if (response.ok) {
+                localStorage.setItem("aboutUsPreloaded", "true");
+            }
+        })
+        .catch(error => {
+            console.warn("預載 about-us.html 失敗", error);
+        });
+
+    const backToTop = document.getElementById("backToTop");
+    backToTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+});
