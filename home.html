@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8" />
+    <title>真實滾動輪播</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #222222;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .carousel {
+            position: relative;
+            width: 100vw;
+            height: 60vh;
+            overflow: hidden;
+            margin-top: 100px;
+        }
+
+        .carousel-track {
+            display: flex;
+            width: 400%; /* 4 張圖 */
+            height: 100%;
+            transition: transform 0.6s ease;
+        }
+
+        .carousel-slide {
+            width: 100vw;
+            height: 100%;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 底部漸層遮罩 */
+        .carousel::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* 左右箭頭 */
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            font-size: 30px;
+            padding: 10px 15px;
+            cursor: pointer;
+            z-index: 3;
+            user-select: none;
+        }
+        .arrow.left { left: 10px; }
+        .arrow.right { right: 10px; }
+
+        /* 原點指示器 */
+        .dots {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 3;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+        }
+
+        .dot.active {
+            background: #fff;
+        }
+
+        .info-section {
+            width: 90vw;
+            margin: 30px auto 0;
+            display: flex;
+            gap: 10px;
+            background-color: rgba(255, 255, 255, 0);
+            backdrop-filter: blur(5px);
+        }
+
+        .left-box, .right-box {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .left-box {
+            flex: 7;
+            background-color: #ddd;
+            color: #000;
+        }
+
+        .right-box {
+            flex: 3;
+            background-color: #444;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="carousel">
+    <div class="carousel-track" id="carouselTrack">
+        <div class="carousel-slide"><img src="img/img1.jpg" alt="1" /></div>
+        <div class="carousel-slide"><img src="img/img2.jpg" alt="2" /></div>
+        <div class="carousel-slide"><img src="img/img3.jpg" alt="3" /></div>
+        <div class="carousel-slide"><img src="img/img4.jpg" alt="4" /></div>
+    </div>
+    <div class="arrow left" onclick="prevSlide()">❮</div>
+    <div class="arrow right" onclick="nextSlide()">❯</div>
+    <div class="dots" id="dotsContainer"></div>
+</div>
+
+<div class="info-section">
+    <div class="left-box">
+        <p>這是左側區塊的內容<br><br><br><br><br>這是左側區塊的內容</p>
+    </div>
+    <div class="right-box">
+        <p>這是右側區塊的內容</p>
+    </div>
+</div>
+
+<script>
+    const track = document.getElementById("carouselTrack");
+    const total = 4;
+    let index = 0;
+
+    const dotsContainer = document.getElementById("dotsContainer");
+
+    // 建立原點
+    for (let i = 0; i < total; i++) {
+        const dot = document.createElement("div");
+        dot.classList.add("dot");
+        if (i === 0) dot.classList.add("active");
+        dot.addEventListener("click", () => goToSlide(i));
+        dotsContainer.appendChild(dot);
+    }
+
+    const dots = document.querySelectorAll(".dot");
+
+    function updateSlide() {
+        track.style.transform = `translateX(-${index * 100}vw)`;
+        dots.forEach((d, i) => d.classList.toggle("active", i === index));
+    }
+
+    function nextSlide() {
+        index = (index + 1) % total;
+        updateSlide();
+    }
+
+    function prevSlide() {
+        index = (index - 1 + total) % total;
+        updateSlide();
+    }
+
+    function goToSlide(i) {
+        index = i;
+        updateSlide();
+    }
+
+    setInterval(nextSlide, 3000);
+</script>
+
+</body>
+</html>

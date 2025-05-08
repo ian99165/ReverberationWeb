@@ -3,7 +3,6 @@ const loadingProgress = document.querySelector('.loading-progress');
 const loadingScreen = document.getElementById('loadingScreen');
 let progress = 0;
 
-// 模擬 loading 進度條
 const interval = setInterval(() => {
     progress += Math.random() * 10;
     if (progress > 100) progress = 100;

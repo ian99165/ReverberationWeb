@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 html, body {
-    background: #222222;
+    background: #535353;
     height: 100%;
     font-family: sans-serif;
 }
@@ -182,10 +182,11 @@ footer {
     justify-content: center;
     padding: 20px;
     box-sizing: border-box;
-    background-color: rgba(255, 255, 255, 0.1); /* 可依需求設定背景 */
     border-bottom: 1px solid #ccc;
 }
-
+.team-container{
+    padding-top: 100px;
+}
 /* 內容卡片 */
 .member-card {
     position: relative;
