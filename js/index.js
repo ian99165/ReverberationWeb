@@ -1,14 +1,29 @@
+let progress = 0;
+const loadingProgress = document.querySelector('.loading-progress');
+const loadingScreen = document.getElementById('loadingScreen');
+
+const interval = setInterval(() => {
+    progress += Math.random() * 10;
+    if (progress > 100) progress = 100;
+    loadingProgress.style.width = progress + '%';
+
+    if (progress >= 100) {
+        clearInterval(interval);
+        loadingScreen.style.opacity = '0';
+        setTimeout(() => {
+            loadingScreen.style.display = 'none';
+        }, 500);
+    }
+}, 200);
+
+// 輪播功能
 const track = document.querySelector(".carousel-track");
 let slides = Array.from(track.children);
-const slideCount = slides.length;
-let currentIndex = 0;
-
 for (let i = 0; i < 4; i++) {
-    const clone = slides[i].cloneNode(true);
-    track.appendChild(clone);
+    track.appendChild(slides[i].cloneNode(true));
 }
-
-let totalSlides = track.children.length;
+let currentIndex = 0;
+const totalSlides = track.children.length;
 
 function moveToNextSlide() {
     currentIndex++;
@@ -23,72 +38,51 @@ function moveToNextSlide() {
         }, 600);
     }
 }
-
 setInterval(moveToNextSlide, 2500);
 
-document.addEventListener("DOMContentLoaded", () => {
-    const loadingScreen = document.getElementById("loadingScreen");
-    const alreadyLoaded = localStorage.getItem("hasVisited");
-
-    if (alreadyLoaded) {
-        loadingScreen.style.display = "none";
-    } else {
-        localStorage.setItem("hasVisited", "true");
-        setTimeout(() => {
-            loadingScreen.style.opacity = 0;
-            setTimeout(() => loadingScreen.style.display = "none", 500);
-        }, 2000); // 顯示 2 秒後隱藏
-    }
-
-    const backToTop = document.getElementById("backToTop");
-    backToTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+// 選單與回頂
+function toggleMenu() {
+    document.getElementById("menu").classList.toggle("show");
+}
+document.getElementById("backToTop").addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
+// 頁面轉場
+document.querySelectorAll('nav a').forEach(link => {
+    link.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.getElementById('transitionOverlay').classList.add('active');
+        setTimeout(() => {
+            window.location.href = this.getAttribute('href');
+        }, 1000);
+    });
+});
+
+//過場隱藏
+function hideTransition() {
+    if (!transitionScreen) return;
+    transitionScreen.classList.add("hide");
+    setTimeout(() => {
+        transitionScreen.style.display = "none";
+    }, 1000); // 與 CSS transition 時間一致
+}
+
+//選單
 function toggleMenu() {
     const menu = document.getElementById("menu");
     menu.classList.toggle("show");
 }
-const loadingProgress = document.querySelector('.loading-progress');
-const loadingScreen = document.getElementById('loadingScreen');
 
-window.addEventListener("load", () => {
-    const loadingScreen = document.getElementById("loadingScreen");
-
-    loadingScreen.style.opacity = '0';
-    setTimeout(() => {
-        loadingScreen.style.display = 'none';
-    }, 500);
+//回到頂端
+window.addEventListener("scroll", function () {
+    const btn = document.getElementById("backToTop");
+    if (!btn) return;
+    btn.style.display = window.scrollY > 50 ? "block" : "none";
 });
 
-
-// index.js
-document.addEventListener("DOMContentLoaded", () => {
-    const loadingScreen = document.getElementById("loadingScreen");
-    const alreadyLoaded = localStorage.getItem("hasVisited");
-
-    if (alreadyLoaded) {
-        loadingScreen.style.display = "none";
-    } else {
-        localStorage.setItem("hasVisited", "true");
-        setTimeout(() => {
-            loadingScreen.style.opacity = 0;
-            setTimeout(() => loadingScreen.style.display = "none", 500);
-        }, 2000);
-    }
-
-    // 🟡👉 預載 about-us.html，並在成功後做記號
-    fetch("about-us.html")
-        .then(response => {
-            if (response.ok) {
-                localStorage.setItem("aboutUsPreloaded", "true");
-            }
-        })
-        .catch(error => {
-            console.warn("預載 about-us.html 失敗", error);
-        });
-
-    const backToTop = document.getElementById("backToTop");
-    backToTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+document.getElementById("backToTop")?.addEventListener("click", () => {
+    window.scrollTo({top: 0, behavior: "smooth"});
 });
 
 document.querySelectorAll('nav a').forEach(link => {
@@ -105,4 +99,3 @@ document.querySelectorAll('nav a').forEach(link => {
         }, 1000);
     });
 });
-
