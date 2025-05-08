@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>自動輪播動畫</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #eee;
+            min-height: 100vh;
+        }
+
+        .carousel {
+            display: flex;
+            width: 100%;
+            height: 60vh;
+            overflow: hidden;
+            position: relative;
+            margin-top: 100px; /* ✅ 改用 margin-top 而不是 top */
+        }
+
+        .carousel img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .carousel .slide {
+            flex: 0 0 20%;
+            opacity: 0.6;
+            transform: scale(0.9);
+            transition: all 0.5s ease;
+        }
+
+        .carousel .slide.main {
+            flex: 0 0 60%;
+            opacity: 1;
+            transform: scale(1);
+            z-index: 1;
+        }
+        .info-section {
+            width: 90vw;
+            margin: 30px auto 0;
+            display: flex;
+            gap: 10px; /* ✅ 左右區塊間隔 10px */
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        .left-box, .right-box {
+            padding: 20px;
+            display: flex;
+            flex-direction: column; /* ✅ 改為直向排列文字 */
+            /* ✅ 移除 align-items: center */
+            justify-content: flex-start;
+        }
+
+        .left-box {
+            flex: 7;
+            background-color: #ddd;
+            color: #000;
+        }
+
+        .right-box {
+            flex: 3;
+            background-color: #444;
+            color: #fff;
+            align-items: center
+        }
+
+
+    </style>
+</head>
+<body>
+
+<div class="carousel">
+    <div class="slide"><img src="img/img3.jpg" alt="Left"></div>
+    <div class="slide main"><img src="img/img1.jpg" alt="Main"></div>
+    <div class="slide"><img src="img/img2.jpg" alt="Right"></div>
+</div>
+<div class="info-section">
+    <div class="left-box">
+        <p>這是左側區塊的內容<br></br></br></br></br>這是左側區塊的內容</p>
+    </div>
+    <div class="right-box">
+        <p>這是右側區塊的內容</p>
+    </div>
+</div>
+
+
+<script>
+    const images = ["img/img1.jpg", "img/img2.jpg", "img/img3.jpg", "img/img4.jpg"];
+    let index = 0;
+
+    function updateSlides() {
+        const slides = document.querySelectorAll('.slide');
+        slides[0].querySelector('img').src = images[(index - 1 + images.length) % images.length];
+        slides[1].querySelector('img').src = images[index];
+        slides[2].querySelector('img').src = images[(index + 1) % images.length];
+    }
+
+    function next() {
+        index = (index + 1) % images.length;
+        updateSlides();
+    }
+
+    updateSlides(); // 初始顯示
+    setInterval(next, 3000); // 每 3 秒切換
+</script>
+
+</body>
+</html>
