@@ -25,27 +25,24 @@ document.getElementById("backToTop").addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
-const backToTopBtn = document.getElementById("backToTop");
-
-window.addEventListener("scroll", () => {
-    if (window.scrollY > 200) {
-        backToTopBtn.style.display = "block";
-    } else {
-        backToTopBtn.style.display = "none";
-    }
-});
-
 // 頁面轉場
+
 document.querySelectorAll('nav a').forEach(link => {
     link.addEventListener('click', function (e) {
         e.preventDefault();
-        document.getElementById('transitionOverlay').classList.add('active');
+        const href = this.getAttribute('href');
+
+        const overlay = document.getElementById('transitionOverlay');
+        overlay.classList.add('active');
+
+        // 等 1 秒動畫跑完再跳轉
         setTimeout(() => {
-            window.location.href = this.getAttribute('href');
+            window.location.href = href;
         }, 1000);
     });
 });
 
+// 頁面載入完畢後隱藏 loading
 window.addEventListener("load", () => {
     if (!transitionScreen) return;
     transitionScreen.classList.add("hide");
@@ -53,30 +50,3 @@ window.addEventListener("load", () => {
         transitionScreen.style.display = "none";
     }, 1000); // 與 CSS 動畫時間一致
 });
-
-//=======
-
-// 輪播功能
-const track = document.querySelector(".carousel-track");
-let slides = Array.from(track.children);
-for (let i = 0; i < 4; i++) {
-    track.appendChild(slides[i].cloneNode(true));
-}
-let currentIndex = 0;
-const totalSlides = track.children.length;
-
-function moveToNextSlide() {
-    currentIndex++;
-    track.style.transition = "transform 0.6s ease";
-    track.style.transform = `translateX(-${25 * currentIndex}vw)`;
-
-    if (currentIndex === totalSlides - 4) {
-        setTimeout(() => {
-            track.style.transition = "none";
-            currentIndex = 0;
-            track.style.transform = `translateX(0vw)`;
-        }, 600);
-    }
-}
-setInterval(moveToNextSlide, 2500);
-

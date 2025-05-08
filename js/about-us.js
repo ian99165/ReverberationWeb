@@ -1,7 +1,7 @@
-const transitionScreen = document.getElementById("transitionScreen");
+let progress = 0;
 const loadingProgress = document.querySelector('.loading-progress');
 const loadingScreen = document.getElementById('loadingScreen');
-let progress = 0;
+const transitionScreen = document.getElementById("transitionScreen");
 
 const interval = setInterval(() => {
     progress += Math.random() * 10;
@@ -16,6 +16,62 @@ const interval = setInterval(() => {
         }, 500);
     }
 }, 200);
+
+// 選單 回頂
+function toggleMenu() {
+    document.getElementById("menu").classList.toggle("show");
+}
+document.getElementById("backToTop").addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+const backToTopBtn = document.getElementById("backToTop");
+
+window.addEventListener("scroll", () => {
+    if (window.scrollY > 200) {
+        backToTopBtn.style.display = "block";
+    } else {
+        backToTopBtn.style.display = "none";
+    }
+});
+
+// 頁面轉場
+document.querySelectorAll('nav a').forEach(link => {
+    link.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.getElementById('transitionOverlay').classList.add('active');
+        setTimeout(() => {
+            window.location.href = this.getAttribute('href');
+        }, 1000);
+    });
+});
+
+document.querySelectorAll('nav a').forEach(link => {
+    link.addEventListener('click', function (e) {
+        e.preventDefault();
+        const href = this.getAttribute('href');
+
+        const overlay = document.getElementById('transitionOverlay');
+        overlay.classList.add('active');
+
+        // 等 1 秒動畫跑完再跳轉
+        setTimeout(() => {
+            window.location.href = href;
+        }, 1000);
+    });
+});
+
+// 頁面載入完畢後隱藏 loading
+
+function hideTransition() {
+    if (!transitionScreen) return;
+    transitionScreen.classList.add("hide");
+    setTimeout(() => {
+        transitionScreen.style.display = "none";
+    }, 1000); // 確保與 CSS 動畫時間一致
+}
+
+//=======
 
 //資料載入
 fetch('https://script.google.com/macros/s/AKfycbwUXpxpsE6iC4jk-xjD1Vw9JPwGVB_SMQEs_rbv76KguMubVmkSsUoQswvXUkj3R5cjDw/exec')
@@ -117,44 +173,3 @@ fetch('https://script.google.com/macros/s/AKfycbwUXpxpsE6iC4jk-xjD1Vw9JPwGVB_SMQ
         document.getElementById('about-team-container').innerText = '讀取失敗，請稍後再試。';
         hideTransition();
     });
-
-//過場隱藏
-function hideTransition() {
-    if (!transitionScreen) return;
-    transitionScreen.classList.add("hide");
-    setTimeout(() => {
-        transitionScreen.style.display = "none";
-    }, 1000); // 與 CSS transition 時間一致
-}
-
-//選單
-function toggleMenu() {
-    const menu = document.getElementById("menu");
-    menu.classList.toggle("show");
-}
-
-//回到頂端
-window.addEventListener("scroll", function () {
-    const btn = document.getElementById("backToTop");
-    if (!btn) return;
-    btn.style.display = window.scrollY > 50 ? "block" : "none";
-});
-
-document.getElementById("backToTop")?.addEventListener("click", () => {
-    window.scrollTo({top: 0, behavior: "smooth"});
-});
-
-    document.querySelectorAll('nav a').forEach(link => {
-    link.addEventListener('click', function (e) {
-        e.preventDefault();
-        const href = this.getAttribute('href');
-
-        const overlay = document.getElementById('transitionOverlay');
-        overlay.classList.add('active');
-
-        // 等 1 秒動畫跑完再跳轉
-        setTimeout(() => {
-            window.location.href = href;
-        }, 1000);
-    });
-});

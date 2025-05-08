@@ -17,10 +17,10 @@ const interval = setInterval(() => {
     }
 }, 200);
 
-// 選單 回頂
 function toggleMenu() {
     document.getElementById("menu").classList.toggle("show");
 }
+
 document.getElementById("backToTop").addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 });
@@ -35,7 +35,8 @@ window.addEventListener("scroll", () => {
     }
 });
 
-// 頁面轉場
+
+// 轉場效果
 document.querySelectorAll('nav a').forEach(link => {
     link.addEventListener('click', function (e) {
         e.preventDefault();
@@ -51,32 +52,56 @@ window.addEventListener("load", () => {
     transitionScreen.classList.add("hide");
     setTimeout(() => {
         transitionScreen.style.display = "none";
-    }, 1000); // 與 CSS 動畫時間一致
+    }, 1000);
 });
 
-//=======
-
-// 輪播功能
-const track = document.querySelector(".carousel-track");
-let slides = Array.from(track.children);
-for (let i = 0; i < 4; i++) {
-    track.appendChild(slides[i].cloneNode(true));
-}
+// 輪播邏輯
 let currentIndex = 0;
-const totalSlides = track.children.length;
+const track = document.querySelector(".custom-track");
+const slides = document.querySelectorAll(".custom-track img");
+const totalSlides = slides.length;
+const dotsContainer = document.getElementById("customDots");
 
-function moveToNextSlide() {
-    currentIndex++;
-    track.style.transition = "transform 0.6s ease";
-    track.style.transform = `translateX(-${25 * currentIndex}vw)`;
-
-    if (currentIndex === totalSlides - 4) {
-        setTimeout(() => {
-            track.style.transition = "none";
-            currentIndex = 0;
-            track.style.transform = `translateX(0vw)`;
-        }, 600);
-    }
+for (let i = 0; i < totalSlides; i++) {
+    const dot = document.createElement("div");
+    dot.classList.add("dot");
+    if (i === 0) dot.classList.add("active");
+    dot.onclick = () => goToSlide(i);
+    dotsContainer.appendChild(dot);
 }
-setInterval(moveToNextSlide, 2500);
+const dots = document.querySelectorAll(".dot");
 
+function updateSlider() {
+    track.style.transform = `translateX(-${currentIndex * 100}%)`;
+    dots.forEach((dot, i) => dot.classList.toggle("active", i === currentIndex));
+}
+
+function nextSlide() {
+    if (currentIndex < totalSlides - 1) {
+        currentIndex++;
+    } else {
+        currentIndex = 0;
+    }
+    updateSlider();
+}
+
+function prevSlide() {
+    if (currentIndex > 0) {
+        currentIndex--;
+        updateSlider();
+    }
+    pauseAutoSlide();
+}
+function goToSlide(i) {
+    currentIndex = i;
+    updateSlider();
+    pauseAutoSlide();
+}
+
+let autoSlideTimer = setInterval(nextSlide, 3000);
+function pauseAutoSlide() {
+    clearInterval(autoSlideTimer);
+    autoSlideTimer = setTimeout(() => {
+        autoSlideTimer = setInterval(nextSlide, 3000);
+    }, 1500);
+}
