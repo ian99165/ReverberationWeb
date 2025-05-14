@@ -17,10 +17,10 @@ const interval = setInterval(() => {
     }
 }, 200);
 
+// 選單 回頂
 function toggleMenu() {
     document.getElementById("menu").classList.toggle("show");
 }
-
 document.getElementById("backToTop").addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 });
@@ -35,8 +35,7 @@ window.addEventListener("scroll", () => {
     }
 });
 
-
-// 轉場效果
+// 頁面轉場
 document.querySelectorAll('nav a').forEach(link => {
     link.addEventListener('click', function (e) {
         e.preventDefault();
@@ -47,13 +46,17 @@ document.querySelectorAll('nav a').forEach(link => {
     });
 });
 
-window.addEventListener("load", () => {
+// 頁面載入完畢後隱藏 loading
+
+function hideTransition() {
     if (!transitionScreen) return;
     transitionScreen.classList.add("hide");
     setTimeout(() => {
         transitionScreen.style.display = "none";
-    }, 1000);
-});
+    }, 1000); // 確保與 CSS 動畫時間一致
+}
+
+//=======
 
 // 輪播邏輯
 let currentIndex = 0;
@@ -105,3 +108,33 @@ function pauseAutoSlide() {
         autoSlideTimer = setInterval(nextSlide, 3000);
     }, 1500);
 }
+
+//從試算表載入
+fetch('https://script.google.com/macros/s/AKfycbwPiCF78STojhFZlclQOOed4SwbnWsSmXC3T6Iny4UtKGbiwQdcYb0VjBb3fzciyF4sLw/exec')
+    .then(response => response.json())
+    .then(data => {
+        if (data.length > 0) {
+            const leftBox = document.querySelector('.left-box');
+            const rightBox = document.querySelector('.right-box');
+
+            // 清空現有內容
+            leftBox.innerHTML = '';
+            rightBox.innerHTML = '';
+
+            // 遍歷資料，並將每一條資料添加到對應的區塊
+            data.forEach(item => {
+                const leftContent = document.createElement('p');
+                leftContent.textContent = item.left; // 將 left 資料放進左邊區塊
+                leftBox.appendChild(leftContent);
+
+                const rightContent = document.createElement('p');
+                rightContent.innerHTML = `<a href="${item.link}" target="_blank" style="text-decoration: none; color: inherit;">
+                                            ${item.right}
+                                          </a>`; // 將 right 資料放進右邊區塊並連結
+                rightBox.appendChild(rightContent);
+            });
+        }
+
+        // 資料載入完畢後隱藏 loading 畫面
+        hideTransition();
+    });

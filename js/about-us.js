@@ -46,21 +46,6 @@ document.querySelectorAll('nav a').forEach(link => {
     });
 });
 
-document.querySelectorAll('nav a').forEach(link => {
-    link.addEventListener('click', function (e) {
-        e.preventDefault();
-        const href = this.getAttribute('href');
-
-        const overlay = document.getElementById('transitionOverlay');
-        overlay.classList.add('active');
-
-        // 等 1 秒動畫跑完再跳轉
-        setTimeout(() => {
-            window.location.href = href;
-        }, 1000);
-    });
-});
-
 // 頁面載入完畢後隱藏 loading
 
 function hideTransition() {

@@ -6,9 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reverberation</title>
     <link rel="stylesheet" href="index.css">
-
+    <link rel="stylesheet" href="css/work.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
+
+<!-- Loading 畫面 -->
+<div id="transitionScreen">
+    <div id="loadingScreen">
+        <div class="loading-text">
+            <span class="letter">L</span>
+            <span class="letter">o</span>
+            <span class="letter">a</span>
+            <span class="letter">d</span>
+            <span class="letter">i</span>
+            <span class="letter">n</span>
+            <span class="letter">g</span>
+            <span class="letter">...</span>
+        </div>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+    </div>
+</div>
+
+<!-- 導覽列 -->
 <header id="mainHeader">
     <img src="img/logo.png" alt="Logo" onclick="location.href='index.html'" />
     <div class="menu-btn" onclick="toggleMenu()">☰</div>
@@ -20,9 +42,26 @@
         </ul>
     </nav>
 </header>
-<main>
 
-</main>
+<div class="container">
+    <div class="left">
+        <div class="photo-frame">
+            <img src="img/img1.JPG" alt="相片">
+            <div class="photo-caption">這是相片文字</div>
+        </div>
+    </div>
+    <div class="right">
+        <button class="action-btn">
+            <img src="img/img1.JPG" alt="相片">
+        </button>
+        <div class="description">
+            <p>這裡是說明文字內容</p>
+        </div>
+    </div>
+</div>
+
+<div class="info-section">
+</div>
 
 <footer>
     &copy; Reverberation.
@@ -30,7 +69,7 @@
 
 <button id="backToTop" class="scroll-top-btn">↑</button>
 
-<script src="js/about-us.js"></script>
+<script src="js/work.js"></script>
 
 <div class="transition-overlay" id="transitionOverlay"></div>
 </body>
