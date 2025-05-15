@@ -28,7 +28,7 @@
 
 .photo-frame {
     transform: rotate(-5deg);
-    background: url('../img/Paper.JPG');
+    background: url('../img/Paper.jpg');
     background-size: cover;
     padding: 20px;
     border: 30px solid transparent;
