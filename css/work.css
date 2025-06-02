@@ -36,13 +36,16 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    aspect-ratio: 1 / 1;
+    margin: 0 auto;
 
 }
 
 .photo-frame img
 {
     object-fit: cover;
-    width: 100%;
+    width: 500px;
+    height: 500px ;
     aspect-ratio: 1 / 1;
 }
 
@@ -111,10 +114,4 @@
         width: 100%;
     }
 
-    .photo-frame {
-        width: 80%;
-        height: auto;
-        aspect-ratio: 1 / 1;
-        margin: 0 auto;
-    }
 }
