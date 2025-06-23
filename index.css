@@ -1,24 +1,69 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-html, body {
-    background: #535353;
-    height: 100%;
-    font-family: sans-serif;
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body, html { width: 100%; height: 100%; overflow: hidden; background: black; }
+
+.foreground { z-index: 10; }
+.bg      { z-index: 1; }
+.character { z-index: 5; }
+.eye, .flashlight {
+    z-index: 6;
+    pointer-events: none;
 }
 
-body.index {
+.scene {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    perspective: 1000px;
     overflow: hidden;
+}
+
+.layer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: filter 0.5s;
+}
+
+.layer img {
+    width: 100%;
+    height: auto;
+}
+
+.character,
+.eye,
+.flashlight {
+    position: absolute;
+    left: 50%;
+    width: 80vw;
+    height: auto;
+}
+
+.bg img {
+    width: calc(100vw + 50px);
     height: 100vh;
 }
-body.home{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
+
+.foreground img {
+    width: 100vw;
+    height: 100vh;
 }
+
+.logo {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+.logo img {
+    width: 100%;
+    height: auto;
+    pointer-events: none;
+}
+
+.darken-75 { filter: brightness(10%); }
+.darken-25 { filter: brightness(35%); }
 
 /* 頁首 */
 header {
@@ -116,35 +161,6 @@ header .menu-btn {
     z-index: 80;
 }
 
-
-/* 輪播 */
-.carousel-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 40px; /* footer 高度 */
-    overflow: hidden;
-    z-index: 1;
-}
-
-.carousel-track {
-    display: flex;
-    height: 100%;
-    transition: transform 0.6s ease; /* 平滑切換 */
-}
-
-.carousel-track img {
-    width: 25vw;
-    height: 100%;
-    object-fit: cover;
-    flex-shrink: 0;
-}
-
-@keyframes slide {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-25vw); } /* 向左滑動一張寬度 */
-}
 
 /* 頁尾 */
 footer {
@@ -510,16 +526,6 @@ footer {
         opacity: 1;
         transform: translateY(0);
     }
-}
-
-.gradient-footer {
-    height: 500px;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgb(31, 0, 0));
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    z-index: 9;
 }
 
 .transition-overlay {
