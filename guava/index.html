@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>PDF 雙頁呈現</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      text-align: center;
+    }
+    .page-pair {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    canvas {
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+<h2>殘響-企劃書</h2>
+<div id="pdf-container"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+  const url = 'example.pdf';
+
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+  const container = document.getElementById('pdf-container');
+
+  pdfjsLib.getDocument(url).promise.then(pdf => {
+    const total = pdf.numPages;
+
+    const renderPage = (pageNum, targetDiv) => {
+      return pdf.getPage(pageNum).then(page => {
+        const scale = 1.2;
+        const viewport = page.getViewport({ scale });
+
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+
+        targetDiv.appendChild(canvas);
+        return page.render({
+          canvasContext: context,
+          viewport: viewport
+        }).promise;
+      });
+    };
+
+    const renderAllPages = async () => {
+      for (let i = 1; i <= total; ) {
+        const pairDiv = document.createElement('div');
+        pairDiv.className = 'page-pair';
+
+        if (i === 1) {
+          // 第一頁單獨置中
+          await renderPage(i, pairDiv);
+          i++;
+        } else {
+          // 後續雙頁排
+          await renderPage(i, pairDiv);
+          if (i + 1 <= total) {
+            await renderPage(i + 1, pairDiv);
+          }
+          i += 2;
+        }
+
+        container.appendChild(pairDiv);
+      }
+    };
+
+    renderAllPages();
+  });
+</script>
+</body>
+</html>
