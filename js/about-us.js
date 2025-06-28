@@ -66,7 +66,7 @@ fetch('https://script.google.com/macros/s/AKfycbwUXpxpsE6iC4jk-xjD1Vw9JPwGVB_SMQ
         const container = document.getElementById('about-team-container');
 
         if (Array.isArray(data)) {
-            data.forEach((member, index) => {
+            data.slice(0, 5).forEach((member, index) => {
                 const card = document.createElement('div');
                 card.classList.add('member-section');
 

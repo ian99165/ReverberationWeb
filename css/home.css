@@ -364,7 +364,7 @@ footer {
 }
 
 .slide img {
-    width: 800px;
+    width: 100vw;
     height: auto;
     object-fit: cover;
 }
